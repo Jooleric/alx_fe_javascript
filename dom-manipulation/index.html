@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamic Quote Generator</title>
+  <script defer src="script.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -28,6 +29,11 @@
     <section id="formArea"></section>
   </main>
 
-  <script defer src="script.js"></script>
+  <!-- Import / Export -->
+    <div class="import-export">
+      <button onclick="exportToJsonFile()">Export JSON</button>
+      <label for="importFile" class="import-label">Import JSON</label>
+      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" hidden>
+    </div>
 </body>
 </html>
