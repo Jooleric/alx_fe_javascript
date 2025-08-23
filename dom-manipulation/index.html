@@ -29,11 +29,9 @@
     <section id="formArea"></section>
   </main>
 
-  <!-- Import / Export -->
-    <div class="import-export">
-      <button onclick="exportToJsonFile()">Export JSON</button>
-      <label for="importFile" class="import-label">Import JSON</label>
-      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" hidden>
-    </div>
+  <!-- ✅ Export and Import -->
+  <button onclick="exportToJsonFile()">Export Quotes</button>
+  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+
 </body>
 </html>
