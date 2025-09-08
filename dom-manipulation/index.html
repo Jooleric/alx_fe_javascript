@@ -4,40 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamic Quote Generator</title>
-  <script defer src="script.js"></script>
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
   <main class="container">
     <h1>Dynamic Quote Generator</h1>
     <p class="tagline">Pick a category & get inspired ✨</p>
 
-    <!-- Category Filter -->
-      <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-</select>
+    <section id="controls" class="controls">
+      <label for="categorySelect" class="label">Category:</label>
+      <select id="categorySelect" aria-label="Quote category"></select>
 
-    <!-- Quote Display -->
-  <div id="quoteDisplay">Click "Show Random Quote" to begin!</div>
+      <button id="newQuote" class="btn">Show New Quote</button>
+      <button id="toggleForm" class="btn btn-secondary">Add Your Own Quote</button>
 
-  <!-- Buttons -->
-      <button onclick="showRandomQuote()">Show Random Quote</button>
-      <button onclick="exportToJsonFile()">Export Quotes</button>
-      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+      <!-- Export & Import -->
+      <button id="exportBtn" class="btn btn-secondary">Export Quotes</button>
+      <input type="file" id="importFile" accept=".json" class="btn btn-secondary"/>
+    </section>
 
-  <!-- Add New Quote -->
-      <h3>Add a New Quote</h3>
-      <input type="text" id="newQuoteText" placeholder="Enter quote text">
-       <input type="text" id="newQuoteCategory" placeholder="Enter category">
-  <button onclick="addQuote()">Add Quote</button>
+    <section id="quoteCard" class="quote-card" aria-live="polite">
+      <p id="quoteText" class="quote-text">Your quote will appear here…</p>
+      <span id="quoteCategory" class="quote-category"></span>
+    </section>
 
-    <!-- The add-quote form will be created here by JavaScript -->
+    <!-- Add-quote form will be inserted here by JavaScript -->
     <section id="formArea"></section>
   </main>
-
-  <!-- ✅ Export and Import -->
-  <button onclick="exportToJsonFile()">Export Quotes</button>
-  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-
 </body>
 </html>

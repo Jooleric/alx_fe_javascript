@@ -5,6 +5,7 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: #f7f7fb;
   color: #222;
+  background-color: lightyellow;
 }
 
 .container {

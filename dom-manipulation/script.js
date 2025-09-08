@@ -130,6 +130,9 @@ function addQuote() {
   filterQuotes();
   notifyUser("Quote added successfully!");
 
+  // Push to server
+  pushQuoteToServer(newQuote);
+
   textEl.value = "";
   catEl.value = "";
 }
@@ -169,6 +172,57 @@ function importFromJsonFile(event) {
   reader.readAsText(file);
 }
 
+/* ---------- Server Sync (Mock API) ---------- */
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts"; // mock API
+const SYNC_INTERVAL_MS = 10000;
+
+async function fetchQuotesFromServer() {
+  try {
+    const res = await fetch(SERVER_URL);
+    const data = await res.json();
+    return normalizeQuotes(data.map(d => ({
+      id: d.id.toString(),
+      text: d.title || "Untitled",
+      category: "Server",
+    })));
+  } catch (err) {
+    console.error("Fetch failed:", err);
+    return [];
+  }
+}
+
+async function pushQuoteToServer(quote) {
+  try {
+    await fetch(SERVER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(quote),
+    });
+    notifyUser("Quote synced to server!");
+  } catch (err) {
+    console.error("Post failed:", err);
+  }
+}
+
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+  let updated = false;
+
+  serverQuotes.forEach(sq => {
+    if (!quotes.some(lq => lq.id === sq.id)) {
+      quotes.push(sq);
+      updated = true;
+    }
+  });
+
+  if (updated) {
+    saveQuotes();
+    populateCategories();
+    filterQuotes();
+    notifyUser("Quotes synced with server!");
+  }
+}
+
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   populateCategories();
@@ -191,4 +245,8 @@ document.addEventListener("DOMContentLoaded", () => {
   byId("toggleForm")?.addEventListener("click", createAddQuoteForm);
   byId("exportBtn")?.addEventListener("click", exportToJsonFile);
   byId("importFile")?.addEventListener("change", importFromJsonFile);
+
+  // Initial sync + periodic sync
+  syncQuotes();
+  setInterval(syncQuotes, SYNC_INTERVAL_MS);
 });
